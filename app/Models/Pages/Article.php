@@ -17,6 +17,7 @@ class Article extends Model implements Pages\IPage
         'url',
         'meta_keywords',
         'meta_title',
+        'meta_description',
         'publish_date'
     ];
 

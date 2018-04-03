@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Pages\IPage;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
  * Class ArticlesController
  * @package App\Http\Controllers\Common
  */
-class ArticlesController extends EntityController
+class ArticlesController extends Controller
 {
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
@@ -30,9 +31,9 @@ class ArticlesController extends EntityController
      * @param IPage $article
      * @return IPage
      */
-    public function show(IPage $article)
+    public function show($id)
     {
-        return $article;
+        return Article::find($id);
     }
 
     /**

@@ -12,17 +12,19 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+/*
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
-Route::get('articles', 'ArticlesController@index');
-Route::get('articles', function () {
+Route::get('articles', '\App\Http\Controllers\Common\ArticlesController@index');
+Route::get('articles/{id}', '\App\Http\Controllers\Common\ArticlesController@show');
+Route::post('articles', '\App\Http\Controllers\Common\ArticlesController@create');
+Route::put('articles/{id}', '\App\Http\Controllers\Common\ArticlesController@update');
+Route::delete('articles/{id}', '\App\Http\Controllers\Common\ArticlesController@delete');
 
-    return response(['Product 1', 'Product 2', 'Product 3'], 200);
-});
-Route::get('articles/{id}', 'ArticlesController@show');
-Route::post('articles', 'ArticlesController@create');
-Route::put('articles/{id}', 'ArticlesController@update');
-Route::delete('articles/{id}', 'ArticlesController@delete');
+Route::get('categories', '\App\Http\Controllers\Common\ArticlesController@index');
+Route::get('categories/{id}', '\App\Http\Controllers\Common\ArticlesController@show');
+Route::post('categories', '\App\Http\Controllers\Common\ArticlesController@create');
+Route::put('categories/{id}', '\App\Http\Controllers\Common\ArticlesController@update');
+Route::delete('categories/{id}', '\App\Http\Controllers\Common\ArticlesController@delete');

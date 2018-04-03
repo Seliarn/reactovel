@@ -1,5 +1,5 @@
 <?php
-var_dump('asdasdasd');die;
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
