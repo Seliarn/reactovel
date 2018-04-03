@@ -9,11 +9,9 @@
 namespace App\Models\Category;
 
 
-use App\Models\Pages\IPage;
-
 interface ICategory
 {
     public function getChildren(ICategory $parent = null);
 
-    public function getItems(IPage);
+    public function getPages(ICategory $category);
 }
