@@ -16,11 +16,9 @@ const Article = ({article}) => {
 
     //Else, display the article data
     return (
-        <div style = {divStyle}>
+        <div style = {divStyle} className = "col-md-10">
             <h2> {article.title} </h2>
             <p> {article.content} </p>
-            <h3> Publish Date {article.publish_date}</h3>
-
         </div>
     )
 }

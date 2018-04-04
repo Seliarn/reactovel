@@ -5,6 +5,7 @@ import Article from "./Article";
 /* Main Component */
 class Main extends Component {
 
+
     constructor() {
 
         super();
@@ -36,7 +37,7 @@ class Main extends Component {
                 /* When using list you need to specify a key
                  * attribute that is unique for each list item
                 */
-                <li
+                <li style = {{cursor: "pointer"}}
                     onClick = {
                         () => this.handleClick(article)
                     }
@@ -57,8 +58,8 @@ class Main extends Component {
     render() {
         /* Some css code has been removed for brevity */
         return (
-            <div>
-                <div>
+            <div className = "row">
+                <div className = "col-md-2">
                     <h3> All articles </h3>
                     <ul>
                         {this.renderArticles()}
@@ -67,7 +68,6 @@ class Main extends Component {
 
                 <Article article = {this.state.currentProduct}/>
             </div>
-
         );
     }
 }
@@ -77,6 +77,6 @@ export default Main;
 /* The if statement is required so as to Render the component on pages that have a div with an ID of "root";
 */
 
-if (document.getElementById('root')) {
-    ReactDOM.render(<Main/>, document.getElementById('root'));
+if (document.getElementById('articles')) {
+    ReactDOM.render(<Main/>, document.getElementById('articles'));
 }

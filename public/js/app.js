@@ -36301,7 +36301,7 @@ var Main = function (_Component) {
                     */
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'li',
-                        {
+                        { style: { cursor: "pointer" },
                             onClick: function onClick() {
                                 return _this3.handleClick(article);
                             },
@@ -36324,10 +36324,10 @@ var Main = function (_Component) {
             /* Some css code has been removed for brevity */
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                null,
+                { className: 'row' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    null,
+                    { className: 'col-md-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'h3',
                         null,
@@ -36352,8 +36352,8 @@ var Main = function (_Component) {
 /* The if statement is required so as to Render the component on pages that have a div with an ID of "root";
 */
 
-if (document.getElementById('root')) {
-    __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Main, null), document.getElementById('root'));
+if (document.getElementById('articles')) {
+    __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Main, null), document.getElementById('articles'));
 }
 
 /***/ }),
@@ -54808,35 +54808,29 @@ var Article = function Article(_ref) {
     //if the props article is null, return Article doesn't exist
     ;if (!article) {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
+            "div",
             { style: divStyle },
-            ' Article Doesnt exist '
+            " Article Doesnt exist "
         );
     }
 
     //Else, display the article data
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: divStyle },
+        "div",
+        { style: divStyle, className: "col-md-10" },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h2',
+            "h2",
             null,
-            ' ',
+            " ",
             article.title,
-            ' '
+            " "
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
+            "p",
             null,
-            ' ',
+            " ",
             article.content,
-            ' '
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            null,
-            ' Publish Date ',
-            article.publish_date
+            " "
         )
     );
 };
