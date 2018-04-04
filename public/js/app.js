@@ -14056,6 +14056,7 @@ __webpack_require__(19);
  */
 
 __webpack_require__(43);
+__webpack_require__(63);
 
 /***/ }),
 /* 19 */
@@ -36239,6 +36240,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Article__ = __webpack_require__(63);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36246,6 +36248,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -36262,7 +36265,8 @@ var Main = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
 
         _this.state = {
-            articles: []
+            articles: [],
+            currentProduct: null
         };
         return _this;
     }
@@ -36288,6 +36292,8 @@ var Main = function (_Component) {
     }, {
         key: 'renderArticles',
         value: function renderArticles() {
+            var _this3 = this;
+
             return this.state.articles.map(function (article) {
                 return (
                     /* When using list you need to specify a key
@@ -36295,11 +36301,22 @@ var Main = function (_Component) {
                     */
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'li',
-                        { key: article.id },
+                        {
+                            onClick: function onClick() {
+                                return _this3.handleClick(article);
+                            },
+                            key: article.id
+                        },
                         article.title
                     )
                 );
             });
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick(article) {
+            //handleClick is used to set the state
+            this.setState({ currentProduct: article });
         }
     }, {
         key: 'render',
@@ -36309,10 +36326,20 @@ var Main = function (_Component) {
                 'div',
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'ul',
+                    'div',
                     null,
-                    this.renderArticles()
-                )
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'h3',
+                        null,
+                        ' All articles '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'ul',
+                        null,
+                        this.renderArticles()
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Article__["default"], { article: this.state.currentProduct })
             );
         }
     }]);
@@ -54752,6 +54779,69 @@ module.exports = camelize;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+/* Stateless component or pure component
+ * { article } syntax is the object destructing
+ */
+var Article = function Article(_ref) {
+    var article = _ref.article;
+
+
+    var divStyle = {}
+    /*code omitted for brevity */
+
+
+    //if the props article is null, return Article doesn't exist
+    ;if (!article) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { style: divStyle },
+            ' Article Doesnt exist '
+        );
+    }
+
+    //Else, display the article data
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { style: divStyle },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h2',
+            null,
+            ' ',
+            article.title,
+            ' '
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            ' ',
+            article.content,
+            ' '
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h3',
+            null,
+            ' Publish Date ',
+            article.publish_date
+        )
+    );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Article);
 
 /***/ })
 /******/ ]);

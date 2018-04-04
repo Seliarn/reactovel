@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import Article from "./Article";
 
 /* Main Component */
 class Main extends Component {
@@ -10,6 +11,7 @@ class Main extends Component {
         //Initialize the state in the constructor
         this.state = {
             articles: [],
+            currentProduct: null
         }
     }
 
@@ -34,20 +36,36 @@ class Main extends Component {
                 /* When using list you need to specify a key
                  * attribute that is unique for each list item
                 */
-                <li key = {article.id}>
+                <li
+                    onClick = {
+                        () => this.handleClick(article)
+                    }
+                    key = {article.id}
+                >
                     {article.title}
                 </li>
             );
         })
     }
 
+    handleClick(article) {
+        //handleClick is used to set the state
+        this.setState({currentProduct: article});
+
+    }
+
     render() {
         /* Some css code has been removed for brevity */
         return (
             <div>
-                <ul>
-                    {this.renderArticles()}
-                </ul>
+                <div>
+                    <h3> All articles </h3>
+                    <ul>
+                        {this.renderArticles()}
+                    </ul>
+                </div>
+
+                <Article article = {this.state.currentProduct}/>
             </div>
 
         );
@@ -60,5 +78,5 @@ export default Main;
 */
 
 if (document.getElementById('root')) {
-    ReactDOM.render(<Main />, document.getElementById('root'));
+    ReactDOM.render(<Main/>, document.getElementById('root'));
 }
