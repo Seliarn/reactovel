@@ -54792,11 +54792,112 @@ module.exports = camelize;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 /* Stateless component or pure component
  * { article } syntax is the object destructing
  */
+
+var ArticleList = function (_Component) {
+    _inherits(ArticleList, _Component);
+
+    function ArticleList() {
+        _classCallCheck(this, ArticleList);
+
+        //Initialize the data in the constructor
+        var _this = _possibleConstructorReturn(this, (ArticleList.__proto__ || Object.getPrototypeOf(ArticleList)).call(this));
+
+        _this.data = {
+            articles: [],
+            current: null
+        };
+        return _this;
+    }
+
+    /*componentDidMount() is a lifecycle method
+     * that gets called after the component is rendered
+     */
+
+
+    _createClass(ArticleList, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            /* fetch API in action */
+            fetch('/api/articles').then(function (response) {
+                return response.json();
+            }).then(function (articles) {
+                //Fetched product is stored in the data
+                _this2.setState({ articles: articles });
+            });
+        }
+    }, {
+        key: 'renderArticles',
+        value: function renderArticles() {
+            var _this3 = this;
+
+            return this.data.articles.map(function (article) {
+                return (
+                    /* When using list you need to specify a key
+                     * attribute that is unique for each list item
+                    */
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'li',
+                        { style: { cursor: "pointer" },
+                            onClick: function onClick() {
+                                return _this3.handleClick(article);
+                            },
+                            key: article.id
+                        },
+                        article.title
+                    )
+                );
+            });
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick(article) {
+            //handleClick is used to set the data
+            this.setState({ current: article });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            /* Some css code has been removed for brevity */
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'row' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'col-md-2' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'h3',
+                        null,
+                        ' All articles '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'ul',
+                        null,
+                        this.renderArticles()
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Article, { article: this.data.current })
+            );
+        }
+    }]);
+
+    return ArticleList;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
 var Article = function Article(_ref) {
     var article = _ref.article;
 
@@ -54808,29 +54909,29 @@ var Article = function Article(_ref) {
     //if the props article is null, return Article doesn't exist
     ;if (!article) {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "div",
+            'div',
             { style: divStyle },
-            " Article Doesnt exist "
+            ' Article Doesnt exist '
         );
     }
 
     //Else, display the article data
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { style: divStyle, className: "col-md-10" },
+        'div',
+        { style: divStyle, className: 'col-md-10' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "h2",
+            'h2',
             null,
-            " ",
+            ' ',
             article.title,
-            " "
+            ' '
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "p",
+            'p',
             null,
-            " ",
+            ' ',
             article.content,
-            " "
+            ' '
         )
     );
 };
