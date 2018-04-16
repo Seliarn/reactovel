@@ -54687,7 +54687,9 @@ var Article = function (_Component) {
 
         _this.state = {
             articles: [],
-            current: null
+            current: null,
+            isLoaded: false,
+            error: null
         };
         return _this;
     }
@@ -54706,23 +54708,30 @@ var Article = function (_Component) {
             fetch('/api/articles').then(function (response) {
                 return response.json();
             }).then(function (articles) {
-                //Fetched product is stored in the state
-                _this2.setState({ articles: articles });
+                _this2.setState({
+                    articles: articles,
+                    isLoaded: true
+                });
+            }, function (error) {
+                _this2.setState({
+                    isLoaded: true,
+                    error: error
+                });
             });
         }
     }, {
         key: 'renderArticles',
         value: function renderArticles() {
-            return this.state.articles.map(function (article) {
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'container-fluid text-center' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'container-fluid text-center' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'row' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    { className: 'row' },
+                    this.state.articles.map(function (article) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
-                            { className: 'col-md-3', key: article.id },
+                            { className: 'col-md-4', key: article.id },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'h3',
                                 null,
@@ -54733,15 +54742,35 @@ var Article = function (_Component) {
                                 null,
                                 article.content
                             )
-                        )
-                    )
-                );
-            });
+                        );
+                    })
+                )
+            );
         }
     }, {
         key: 'render',
         value: function render() {
-            return this.renderArticles();
+            var _state = this.state,
+                error = _state.error,
+                isLoaded = _state.isLoaded,
+                items = _state.items;
+
+            if (error) {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    'Error: ',
+                    error.message
+                );
+            } else if (!isLoaded) {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    'Loading...'
+                );
+            } else {
+                return this.renderArticles();
+            }
         }
     }]);
 
@@ -54798,53 +54827,6 @@ var Main = function (_Component) {
     _createClass(Main, [{
         key: 'checkAuth',
         value: function checkAuth() {}
-
-        /*componentDidMount() is a lifecycle method
-         * that gets called after the component is rendered
-         */
-
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            /* fetch API in action */
-            fetch('/api/articles').then(function (response) {
-                return response.json();
-            }).then(function (articles) {
-                //Fetched product is stored in the state
-                _this2.setState({ articles: articles });
-            });
-        }
-    }, {
-        key: 'renderArticles',
-        value: function renderArticles() {
-            var _this3 = this;
-
-            return this.state.articles.map(function (article) {
-                return (
-                    /* When using list you need to specify a key
-                     * attribute that is unique for each list item
-                    */
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'li',
-                        {
-                            onClick: function onClick() {
-                                return _this3.handleClick(article);
-                            },
-                            key: article.id
-                        },
-                        article.title
-                    )
-                );
-            });
-        }
-    }, {
-        key: 'handleClick',
-        value: function handleClick(article) {
-            //handleClick is used to set the state
-            this.setState({ currentProduct: article });
-        }
     }, {
         key: 'render',
         value: function render() {
