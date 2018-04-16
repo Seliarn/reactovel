@@ -1,82 +1,24 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import Article from "./Article";
+import React from 'react'
+import ReactDom from 'react-dom'
 
-/* Main Component */
-class Main extends Component {
 
-    constructor() {
 
-        super();
-        //Initialize the state in the constructor
-        this.state = {
-            articles: [],
-            currentProduct: null
-        }
+class Main extends React.Component{
+
+    render(){
+        return(
+            <Card>
+                <CardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" />
+                <CardBody>
+                    <CardTitle>Card title</CardTitle>
+                    <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                    <Button href="#">Button</Button>
+                </CardBody>
+            </Card>
+
+        )
     }
 
-    /*componentDidMount() is a lifecycle method
-     * that gets called after the component is rendered
-     */
-    componentDidMount() {
-        /* fetch API in action */
-        fetch('/api/articles')
-            .then(response => {
-                return response.json();
-            })
-            .then(articles => {
-                //Fetched product is stored in the state
-                this.setState({articles});
-            });
-    }
-
-    renderArticles() {
-        return this.state.articles.map(article => {
-            return (
-                /* When using list you need to specify a key
-                 * attribute that is unique for each list item
-                */
-                <li
-                    onClick = {
-                        () => this.handleClick(article)
-                    }
-                    key = {article.id}
-                >
-                    {article.title}
-                </li>
-            );
-        })
-    }
-
-    handleClick(article) {
-        //handleClick is used to set the state
-        this.setState({currentProduct: article});
-
-    }
-
-    render() {
-        /* Some css code has been removed for brevity */
-        return (
-            <div>
-                <div>
-                    <h3> All articles </h3>
-                    <ul>
-                        {this.renderArticles()}
-                    </ul>
-                </div>
-
-                <Article article = {this.state.currentProduct}/>
-            </div>
-
-        );
-    }
 }
 
-export default Main;
-
-/* The if statement is required so as to Render the component on pages that have a div with an ID of "root";
-*/
-
-if (document.getElementById('root')) {
-    ReactDOM.render(<Main/>, document.getElementById('root'));
-}
+ReactDom.render(<Main/>, document.getElementById('articles'))
