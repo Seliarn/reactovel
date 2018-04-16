@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
+import {Header} from './Header.js';
 import ReactDOM from 'react-dom';
-import Article from "./Article";
+import {Sidebar} from "./Sidebar";
+import {Content} from "./Content";
+import {Footer} from "./Footer";
 
 /* Main Component */
 class Main extends Component {
@@ -13,6 +16,9 @@ class Main extends Component {
             articles: [],
             currentProduct: null
         }
+    }
+
+    checkAuth() {
     }
 
     /*componentDidMount() is a lifecycle method
@@ -55,19 +61,29 @@ class Main extends Component {
     }
 
     render() {
+        // const isLoggedIn = this.state.isLoggedIn;
+        const isLoggedIn = true;
         /* Some css code has been removed for brevity */
         return (
-            <div>
-                <div>
-                    <h3> All articles </h3>
-                    <ul>
-                        {this.renderArticles()}
-                    </ul>
-                </div>
+            <div className = "container">
+                <header className = "section-header">
+                    <Header/>
+                </header>
+                <div className = "clearfix"></div>
 
-                <Article article = {this.state.currentProduct}/>
+                <section className = "wrapper row">
+                    <aside className = "section-sidebar col-md-2">
+                        <Sidebar/>
+                    </aside>
+                    <section className = "section-content col-md-10">
+                        <Content/>
+                    </section>
+                </section>
+                <div className = "clearfix"></div>
+                <footer className = "section-footer">
+                    <Footer/>
+                </footer>
             </div>
-
         );
     }
 }

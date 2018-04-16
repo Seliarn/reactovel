@@ -3,7 +3,7 @@ import React from 'react';
 /* Stateless component or pure component
  * { article } syntax is the object destructing
  */
-const Article = ({article}) => {
+export const Article = ({article}) => {
 
     const divStyle = {
         /*code omitted for brevity */
@@ -24,5 +24,3 @@ const Article = ({article}) => {
         </div>
     )
 }
-
-export default Article;
