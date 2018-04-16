@@ -7,10 +7,11 @@ export class Footer extends Component {
         return (
             <div className = "row">
                 <div className = "col-md-2">
-                    <div id = "logo"></div>
+                    <div id = "logo">
+                        LOGO
+                    </div>
                 </div>
-                <div class = "col-md-10">
-                    <div id = "logo"></div>
+                <div className = "col-md-10">
                     <Contacts/>
                 </div>
             </div>

@@ -5,7 +5,6 @@ export class Auth extends Component {
 
     render() {
         const isLoggedIn = this.state.isLoggedIn;
-        /* Some css code has been removed for brevity */
         return (
             <div className = "container">
                 <div className = "row">

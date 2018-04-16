@@ -1,26 +1,52 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-/* Stateless component or pure component
- * { article } syntax is the object destructing
- */
-export const Article = ({article}) => {
+export class Article extends Component {
 
-    const divStyle = {
-        /*code omitted for brevity */
+    constructor() {
+
+        super();
+        //Initialize the state in the constructor
+        this.state = {
+            articles: [],
+            current: null
+        }
     }
 
-    //if the props article is null, return Article doesn't exist
-    if (!article) {
-        return (<div style = {divStyle}> Article Doesnt exist </div>);
+    /*componentDidMount() is a lifecycle method
+     * that gets called after the component is rendered
+     */
+    componentDidMount() {
+        /* fetch API in action */
+        fetch('/api/articles')
+            .then(response => {
+                return response.json();
+            })
+            .then(articles => {
+                //Fetched product is stored in the state
+                this.setState({articles});
+            });
     }
 
-    //Else, display the article data
-    return (
-        <div style = {divStyle}>
-            <h2> {article.title} </h2>
-            <p> {article.content} </p>
-            <h3> Publish Date {article.publish_date}</h3>
+    renderArticles() {
+        return this.state.articles.map(article => {
+            return (
+                <div className = "container-fluid text-center">
+                    <div className = "row">
+                        <div className = "col-md-3" key = {article.id}>
+                            <h3>{article.title}</h3>
+                            <div>
+                                {article.content}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        })
+    }
 
-        </div>
-    )
+    render() {
+        return (
+            this.renderArticles()
+        );
+    }
 }

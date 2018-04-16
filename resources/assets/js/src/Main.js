@@ -71,14 +71,20 @@ class Main extends Component {
                 </header>
                 <div className = "clearfix"></div>
 
-                <section className = "wrapper row">
-                    <aside className = "section-sidebar col-md-2">
-                        <Sidebar/>
-                    </aside>
-                    <section className = "section-content col-md-10">
-                        <Content/>
+                {isLoggedIn ? (
+                    <section className = "wrapper row">
+                        <aside className = "section-sidebar col-md-2">
+                            <Sidebar/>
+                        </aside>
+                        <section className = "section-content col-md-10">
+                            <Content/>
+                        </section>
                     </section>
-                </section>
+                ) : (
+                    <section className = "section-auth row">
+                        <Auth/>
+                    </section>
+                )}
                 <div className = "clearfix"></div>
                 <footer className = "section-footer">
                     <Footer/>
