@@ -54821,54 +54821,87 @@ module.exports = camelize;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Article; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
-/* Stateless component or pure component
- * { article } syntax is the object destructing
- */
-var Article = function Article(_ref) {
-    var article = _ref.article;
 
+var Article = function (_Component) {
+    _inherits(Article, _Component);
 
-    var divStyle = {}
-    /*code omitted for brevity */
+    function Article() {
+        _classCallCheck(this, Article);
 
+        //Initialize the state in the constructor
+        var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this));
 
-    //if the props article is null, return Article doesn't exist
-    ;if (!article) {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { style: divStyle },
-            ' Article Doesnt exist '
-        );
+        _this.state = {
+            articles: [],
+            current: null
+        };
+        return _this;
     }
 
-    //Else, display the article data
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { style: divStyle },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h2',
-            null,
-            ' ',
-            article.title,
-            ' '
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            null,
-            ' ',
-            article.content,
-            ' '
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            null,
-            ' Publish Date ',
-            article.publish_date
-        )
-    );
-};
+    /*componentDidMount() is a lifecycle method
+     * that gets called after the component is rendered
+     */
+
+
+    _createClass(Article, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            /* fetch API in action */
+            fetch('/api/articles').then(function (response) {
+                return response.json();
+            }).then(function (articles) {
+                //Fetched product is stored in the state
+                _this2.setState({ articles: articles });
+            });
+        }
+    }, {
+        key: 'renderArticles',
+        value: function renderArticles() {
+            return this.state.articles.map(function (article) {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'container-fluid text-center' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'col-md-3', key: article.id },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'h3',
+                                null,
+                                article.title
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                null,
+                                article.content
+                            )
+                        )
+                    )
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return this.renderArticles();
+        }
+    }]);
+
+    return Article;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /***/ }),
 /* 64 */
@@ -54982,7 +55015,7 @@ var Main = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Header_js__["a" /* Header */], null)
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'clearfix' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                isLoggedIn ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'section',
                     { className: 'wrapper row' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -54995,6 +55028,10 @@ var Main = function (_Component) {
                         { className: 'section-content col-md-10' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Content__["a" /* Content */], null)
                     )
+                ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'section',
+                    { className: 'section-auth row' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Auth, null)
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'clearfix' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -60269,12 +60306,15 @@ var Footer = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'col-md-2' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'logo' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { id: 'logo' },
+                        'LOGO'
+                    )
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { 'class': 'col-md-10' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'logo' }),
+                    { className: 'col-md-10' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__common_Contacts__["a" /* Contacts */], null)
                 )
             );
