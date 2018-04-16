@@ -35951,6 +35951,8 @@ if (false) {
  */
 
 
+var Main = function (_React$Component) {
+    _inherits(Main, _React$Component);
 
 /**
  * Use invariant() to assert state which your program assumes to be true.
