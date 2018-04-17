@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom'
+import React, {Component} from 'react';
 import axios from 'axios'
 
 
@@ -9,6 +9,8 @@ export class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            token: '',
+            err: false
         }
     }
 
@@ -57,7 +59,8 @@ export class Login extends Component {
                                             <label for = "email" className = "col-md-4 control-label">E-Mail Address</label>
 
                                             <div className = "col-md-6">
-                                                <input id = "email" type = "email" ref = "email" className = "form-control" name = "email" onChange = {this.onChange.bind(this)} required/>
+                                                <input id = "email" type = "email" ref = "email" className = "form-control" name = "email"
+                                                       onChange = {this.onChange.bind(this)} required/>
                                             </div>
                                         </div>
 
@@ -65,7 +68,8 @@ export class Login extends Component {
                                             <label for = "password" className = "col-md-4 control-label">Password</label>
 
                                             <div className = "col-md-6">
-                                                <input id = "password" type = "password" ref = "password" className = "form-control" name = "password" onChange = {this.onChange.bind(this)} required/>
+                                                <input id = "password" type = "password" ref = "password" className = "form-control" name = "password"
+                                                       onChange = {this.onChange.bind(this)} required/>
                                             </div>
                                         </div>
 
@@ -86,7 +90,7 @@ export class Login extends Component {
                                                 </button>
 
                                                 <li className = "btn btn-link">
-                                                    <Link to = "forgotpassword">Forgot Your Password?</Link>
+                                                    {/*<Link to = "forgotpassword">Forgot Your Password?</Link>*/}
                                                 </li>
                                             </div>
                                         </div>

@@ -14,7 +14,7 @@ class EntityController extends Controller
 
     public function index()
     {
-        return Article::all();
+//        return Article::all();
     }
 
     public function show(IPage $article)
