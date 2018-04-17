@@ -18,4 +18,4 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
-Route::post('register', 'Auth\RegisterController@register');
+Route::get('/home', 'HomeController@index');
