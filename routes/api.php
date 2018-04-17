@@ -12,6 +12,7 @@
 */
 Route::middleware('auth:api')
     ->get('/user', function (Request $request) {
+        var_dump($request->user());
         return $request->user();
     });
 

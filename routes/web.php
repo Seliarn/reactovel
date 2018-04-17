@@ -18,4 +18,11 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
+Route::get('/login', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
+
+/*
+ Auth routes
+ vendor/laravel/framework/src/Illuminate/Routing/Router.php
+ public function auth()
+ */
