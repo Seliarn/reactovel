@@ -5,6 +5,7 @@ import {Sidebar} from "./Sidebar";
 import {Content} from "./Content";
 import {Footer} from "./Footer";
 import {Auth} from "./Auth";
+import {AuthService} from "./auth/service/AuthService";
 
 /* Main Component */
 class Main extends Component {
@@ -13,17 +14,12 @@ class Main extends Component {
 
         super();
         //Initialize the state in the constructor
-        this.state = {
-            token: null
-        }
-    }
-
-    checkAuth() {
+        this.AuthService = new AuthService();
+        this.state = {isLoggedIn: this.AuthService.checkToken()};
     }
 
     render() {
-        // let isLoggedIn = this.state.token;
-        let isLoggedIn = true;
+        let isLoggedIn = this.state.isLoggedIn;
         /* Some css code has been removed for brevity */
         return (
             <div className = "container">

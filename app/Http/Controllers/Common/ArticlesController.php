@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Pages\IPage;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ArticlesController
@@ -44,7 +45,7 @@ class ArticlesController extends Controller
     {
         $article = Article::create($request->all());
 
-        return response()->json($article, 201);
+        return response()->json($article, Response::HTTP_CREATED);
     }
 
     /**
@@ -56,7 +57,7 @@ class ArticlesController extends Controller
     {
         $article->update($request->all());
 
-        return response()->json($article, 200);
+        return response()->json($article, Response::HTTP_OK);
     }
 
     /**
@@ -68,6 +69,6 @@ class ArticlesController extends Controller
     {
         $article->delete();
 
-        return response()->json(null, 204);
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

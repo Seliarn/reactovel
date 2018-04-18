@@ -10,13 +10,14 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/*
 Route::middleware('auth:api')
     ->get('/user', function (Request $request) {
         var_dump($request->user());
         return $request->user();
     });
-
-Route::group(['middleware' => 'auth:api'], function () {
+*/
+Route::group(['middleware' => ['csrf', 'auth:api']], function () {
     Route::get('articles', '\App\Http\Controllers\Common\ArticlesController@index');
     Route::get('articles/{id}', '\App\Http\Controllers\Common\ArticlesController@show');
     Route::post('articles', '\App\Http\Controllers\Common\ArticlesController@create');

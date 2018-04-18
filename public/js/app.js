@@ -54801,6 +54801,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Content__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Footer__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Auth__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__auth_service_AuthService__ = __webpack_require__(128);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54808,6 +54809,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -54828,20 +54830,15 @@ var Main = function (_Component) {
         //Initialize the state in the constructor
         var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
 
-        _this.state = {
-            token: null
-        };
+        _this.AuthService = new __WEBPACK_IMPORTED_MODULE_7__auth_service_AuthService__["a" /* AuthService */]();
+        _this.state = { isLoggedIn: _this.AuthService.checkToken() };
         return _this;
     }
 
     _createClass(Main, [{
-        key: 'checkAuth',
-        value: function checkAuth() {}
-    }, {
         key: 'render',
         value: function render() {
-            // let isLoggedIn = this.state.token;
-            var isLoggedIn = true;
+            var isLoggedIn = this.state.isLoggedIn;
             /* Some css code has been removed for brevity */
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -60443,11 +60440,12 @@ var Login = function (_Component) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_service_RequestService__ = __webpack_require__(129);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
 
 var AuthService = function () {
     // Initializing important variables
@@ -60455,7 +60453,7 @@ var AuthService = function () {
         _classCallCheck(this, AuthService);
 
         this.path = path || 'login'; // API server domain
-        this.fetch = this.fetch.bind(this); // React binding stuff
+        this.RequestService = new __WEBPACK_IMPORTED_MODULE_0__common_service_RequestService__["a" /* RequestService */]();
         this.login = this.login.bind(this);
         this.getProfile = this.getProfile.bind(this);
     }
@@ -60466,7 +60464,7 @@ var AuthService = function () {
             var _this = this;
 
             // Get a token from api server using the fetch api
-            return this.fetch(this.path, {
+            return this.RequestService.fetch(this.path, {
                 method: 'POST',
                 body: JSON.stringify({
                     email: email,
@@ -60506,12 +60504,19 @@ var AuthService = function () {
         value: function setToken(idToken) {
             // Saves user token to localStorage
             localStorage.setItem('token', idToken);
+            localStorage.setItem('token_expiration', time() + 86400);
         }
     }, {
         key: 'getToken',
         value: function getToken() {
             // Retrieves the user token from localStorage
             return localStorage.getItem('token');
+        }
+    }, {
+        key: 'checkToken',
+        value: function checkToken() {
+            // Retrieves the user token from localStorage
+            return localStorage.getItem('token') && localStorage.getItem('token_expiration') && time() < localStorage.getItem('token_expiration');
         }
     }, {
         key: 'logout',
@@ -60525,7 +60530,40 @@ var AuthService = function () {
             // Using jwt-decode npm package to decode the token
             return this.getToken();
         }
-    }, {
+    }]);
+
+    return AuthService;
+}();
+
+/***/ }),
+/* 129 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RequestService; });
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RequestService = function () {
+    function RequestService(path) {
+        var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+        _classCallCheck(this, RequestService);
+
+        this.path = path; // API server domain
+        this.options = args.options || { method: 'GET' }; // API server domain
+        this.headers = args.headers || {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        };
+
+        this.fetch = this.fetch.bind(this); // React binding stuff
+    }
+
+    _createClass(RequestService, [{
         key: 'fetch',
         value: function (_fetch) {
             function fetch(_x, _x2) {
@@ -60537,7 +60575,7 @@ var AuthService = function () {
             };
 
             return fetch;
-        }(function (url, options) {
+        }(function (path, options) {
             // performs api calls sending the required authentication headers
             var headers = {
                 'Accept': 'application/json',
@@ -60549,7 +60587,7 @@ var AuthService = function () {
                 headers['Authorization'] = 'Bearer ' + this.getToken();
             }
 
-            return fetch(url, _extends({
+            return fetch(path, _extends({
                 headers: headers
             }, options)).then(this._checkStatus).then(function (response) {
                 return response.json();
@@ -60570,7 +60608,7 @@ var AuthService = function () {
         }
     }]);
 
-    return AuthService;
+    return RequestService;
 }();
 
 /***/ })

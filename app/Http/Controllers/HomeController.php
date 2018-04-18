@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {/*
@@ -28,6 +30,17 @@ class HomeController extends Controller
             return view('welcome');
         } else {
             return redirect('/login');
+        }
+    }
+
+    public function checkAuth()
+    {
+        $user = Auth::guard('api')->user();
+
+        if ($user) {
+            return response()->json($user, Response::HTTP_OK);
+        } else {
+            return response()->json($user, Response::HTTP_UNAUTHORIZED);
         }
     }
 }
