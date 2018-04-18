@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import {Sidebar} from "./Sidebar";
 import {Content} from "./Content";
 import {Footer} from "./Footer";
+import {Auth} from "./Auth";
 
 /* Main Component */
 class Main extends Component {
@@ -13,8 +14,7 @@ class Main extends Component {
         super();
         //Initialize the state in the constructor
         this.state = {
-            articles: [],
-            currentProduct: null
+            token: null
         }
     }
 
@@ -22,8 +22,8 @@ class Main extends Component {
     }
 
     render() {
-        // const isLoggedIn = this.state.isLoggedIn;
-        const isLoggedIn = true;
+        // let isLoggedIn = this.state.token;
+        let isLoggedIn = true;
         /* Some css code has been removed for brevity */
         return (
             <div className = "container">

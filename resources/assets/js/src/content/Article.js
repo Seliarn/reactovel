@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 export class Article extends Component {
 
@@ -19,21 +21,23 @@ export class Article extends Component {
      */
     componentDidMount() {
         /* fetch API in action */
-        fetch('/api/articles')
-            .then(response => response.json())
-            .then(
-                (articles) => {
-                    this.setState({
-                        articles: articles,
-                        isLoaded: true
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
+        axios.get('/api/articles', {
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')},
+        })
+            .then(response => {
+                response.json();
+                this.setState({
+                    articles: articles,
+                    isLoaded: true
                 });
+            })
+            .catch(error => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+                console.log(error);
+            });
     }
 
     renderArticles() {
@@ -55,8 +59,11 @@ export class Article extends Component {
     }
 
     render() {
-        const {error, isLoaded, items} = this.state;
+        const {error, isLoaded} = this.state;
         if (error) {
+            if (error.response.status == 401) {
+                return <Redirect to="login"/>
+            }
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return <div>Loading...</div>;

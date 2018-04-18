@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use Illuminate\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Users extends Model
+class User extends Authenticatable
 {
     use Notifiable;
-    use Authenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,4 +29,12 @@ class Users extends Model
         'password',
         'remember_token',
     ];
+
+    public function generateToken()
+    {
+        $this->api_token = str_random(60);
+        $this->save();
+
+        return $this->api_token;
+    }
 }

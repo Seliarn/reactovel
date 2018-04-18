@@ -4,7 +4,6 @@ import {Login} from './auth/Login';
 export class Auth extends Component {
 
     render() {
-        const isLoggedIn = this.state.isLoggedIn;
         return (
             <div className = "container">
                 <div className = "row">

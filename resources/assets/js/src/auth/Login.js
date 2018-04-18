@@ -1,46 +1,36 @@
-import {Link} from 'react-router-dom'
-import axios from 'axios'
-
+import React, {Component} from 'react';
+import {AuthService} from './service/AuthService';
 
 export class Login extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-        }
+    constructor() {
+        super();
+        this.handleChange = this.handleChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.Auth = new AuthService();
     }
 
-    onSubmit(e) {
+    handleChange(e) {
+        this.setState(
+            {
+                [e.target.name]: e.target.value
+            }
+        )
+    }
+
+    handleFormSubmit(e) {
         e.preventDefault();
-        const {email, password} = this.state;
-        axios.post('api/login', {
-            email,
-            password
-        })
-            .then(response => {
-                this.setState({err: false});
-                this.props.history.push("home");
 
+        this.Auth.login(this.state.email, this.state.password)
+            .then(res => {
+                this.props.history.replace('/');
             })
-            .catch(error => {
-                this.refs.email.value = "";
-                this.refs.password.value = "";
-                this.setState({err: true});
-            });
-    }
-
-    onChange(e) {
-        const {name, value} = e.target;
-        this.setState({[name]: value});
+            .catch(err => {
+                alert(err);
+            })
     }
 
     render() {
-
-        let error = this.state.err;
-        let msg = (!error) ? 'Login Successful' : 'Wrong Credentials';
-        let name = (!error) ? 'alert alert-success' : 'alert alert-danger';
         return (
             <div>
                 <div className = "container-fluid">
@@ -50,26 +40,28 @@ export class Login extends Component {
                                 <div className = "panel-heading">Login</div>
                                 <div className = "panel-body">
                                     <div className = "col-md-offset-2 col-md-8 col-md-offset-2">
-                                        {error !== undefined && <div className = {name} role = "alert">{msg}</div>}
+                                        {/*error !== undefined && <div className = {name} role = "alert">{msg}</div>*/}
                                     </div>
-                                    <form className = "form-horizontal" role = "form" method = "POST" onSubmit = {this.onSubmit.bind(this)}>
+                                    <form className = "form-horizontal" role = "form">
                                         <div className = "form-group">
-                                            <label for = "email" className = "col-md-4 control-label">E-Mail Address</label>
+                                            <label htmlFor = "email" className = "col-md-4 control-label">E-Mail Address</label>
 
                                             <div className = "col-md-6">
-                                                <input id = "email" type = "email" ref = "email" className = "form-control" name = "email" onChange = {this.onChange.bind(this)} required/>
+                                                <input id = "email" type = "text" ref = "email" className = "form-control" name = "email"
+                                                       onChange = {this.handleChange} required/>
                                             </div>
                                         </div>
 
                                         <div className = "form-group">
-                                            <label for = "password" className = "col-md-4 control-label">Password</label>
+                                            <label htmlFor = "password" className = "col-md-4 control-label">Password</label>
 
                                             <div className = "col-md-6">
-                                                <input id = "password" type = "password" ref = "password" className = "form-control" name = "password" onChange = {this.onChange.bind(this)} required/>
+                                                <input id = "password" type = "password" ref = "password" className = "form-control" name = "password"
+                                                       onChange = {this.handleChange} required/>
                                             </div>
                                         </div>
 
-                                        <div className = "form-group">
+                                        {/*<div className = "form-group">
                                             <div className = "col-md-6 col-md-offset-4">
                                                 <div className = "checkbox">
                                                     <label>
@@ -77,7 +69,7 @@ export class Login extends Component {
                                                     </label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*/}
 
                                         <div className = "form-group">
                                             <div className = "col-md-8 col-md-offset-4">
@@ -86,7 +78,7 @@ export class Login extends Component {
                                                 </button>
 
                                                 <li className = "btn btn-link">
-                                                    <Link to = "forgotpassword">Forgot Your Password?</Link>
+                                                    {/*<Link to = "forgotpassword">Forgot Your Password?</Link>*/}
                                                 </li>
                                             </div>
                                         </div>
