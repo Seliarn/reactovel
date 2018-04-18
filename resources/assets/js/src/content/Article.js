@@ -8,7 +8,9 @@ export class Article extends Component {
         //Initialize the state in the constructor
         this.state = {
             articles: [],
-            current: null
+            current: null,
+            isLoaded: false,
+            error: null,
         }
     }
 
@@ -18,35 +20,50 @@ export class Article extends Component {
     componentDidMount() {
         /* fetch API in action */
         fetch('/api/articles')
-            .then(response => {
-                return response.json();
-            })
-            .then(articles => {
-                //Fetched product is stored in the state
-                this.setState({articles});
-            });
+            .then(response => response.json())
+            .then(
+                (articles) => {
+                    this.setState({
+                        articles: articles,
+                        isLoaded: true
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                });
     }
 
     renderArticles() {
-        return this.state.articles.map(article => {
-            return (
-                <div className = "container-fluid text-center">
-                    <div className = "row">
-                        <div className = "col-md-3" key = {article.id}>
-                            <h3>{article.title}</h3>
-                            <div>
-                                {article.content}
+        return (
+            <div className = "container-fluid text-center">
+                <div className = "row">
+                    {this.state.articles.map(article => {
+                        return (
+                            <div className = "col-md-4" key = {article.id}>
+                                <h3>{article.title}</h3>
+                                <div>
+                                    {article.content}
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        );
+                    })}
                 </div>
-            );
-        })
+            </div>)
     }
 
     render() {
-        return (
-            this.renderArticles()
-        );
+        const {error, isLoaded, items} = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return (
+                this.renderArticles()
+            );
+        }
     }
 }

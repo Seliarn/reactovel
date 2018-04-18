@@ -21,45 +21,6 @@ class Main extends Component {
     checkAuth() {
     }
 
-    /*componentDidMount() is a lifecycle method
-     * that gets called after the component is rendered
-     */
-    componentDidMount() {
-        /* fetch API in action */
-        fetch('/api/articles')
-            .then(response => {
-                return response.json();
-            })
-            .then(articles => {
-                //Fetched product is stored in the state
-                this.setState({articles});
-            });
-    }
-
-    renderArticles() {
-        return this.state.articles.map(article => {
-            return (
-                /* When using list you need to specify a key
-                 * attribute that is unique for each list item
-                */
-                <li
-                    onClick = {
-                        () => this.handleClick(article)
-                    }
-                    key = {article.id}
-                >
-                    {article.title}
-                </li>
-            );
-        })
-    }
-
-    handleClick(article) {
-        //handleClick is used to set the state
-        this.setState({currentProduct: article});
-
-    }
-
     render() {
         // const isLoggedIn = this.state.isLoggedIn;
         const isLoggedIn = true;
