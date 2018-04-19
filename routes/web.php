@@ -18,8 +18,8 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
-Route::get('/login', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
+Route::get('login', 'HomeController@index')->name('login');
+Route::get('home', 'HomeController@index');
 
 /*
  Auth routes
