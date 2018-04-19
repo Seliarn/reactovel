@@ -5,9 +5,36 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+//header
+@import "sidebar/sidebar";
+
+//footer
+@import "footer/footer";
+
+//form-login
+@import "form-login/form-login";
+
+
+@import "section-content";
+.sticky-footer{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.wrapper{
+  flex: 1 0 auto;
+}
+.section-footer{
+  flex-shrink: 0;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.main-content{
+  padding-top:25px;
 }
 
 .side-nav {

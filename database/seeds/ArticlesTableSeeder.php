@@ -18,10 +18,10 @@ class ArticlesTableSeeder extends Seeder
             \App\Models\Article::create([
                 'title' => $faker->title,
                 'content' => $faker->paragraph,
-                'url' => $faker->paragraph,
-                'meta_keywords' => $faker->paragraph,
-                'meta_description' => $faker->paragraph,
-                'meta_title' => $faker->paragraph,
+                'url' => $faker->title,
+                'meta_keywords' => $faker->title,
+                'meta_description' => $faker->title,
+                'meta_title' => $faker->title,
                 'publish_date' => $faker->unixTime
             ]);
         }

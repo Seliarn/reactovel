@@ -11,7 +11,7 @@ export class AuthService {
     login(email, password) {
 
         let path = 'login';
-        
+
         let params = {
             credentials: 'include',
             body: JSON.stringify({

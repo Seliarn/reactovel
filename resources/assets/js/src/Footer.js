@@ -5,7 +5,7 @@ export class Footer extends Component {
     render() {
         /* Some css code has been removed for brevity */
         return (
-            <div className = "row">
+            <div className = "row footer">
                 <div className = "col-md-2">
                     <div id = "logo">
                         LOGO

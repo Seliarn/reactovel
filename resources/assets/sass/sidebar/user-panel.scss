@@ -1,0 +1,24 @@
+.user-panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid #383d41;
+    margin-bottom: 15px;
+    padding-bottom: 7px;
+    &__image{
+        padding: 10px;
+    }
+    &__info{
+        text-align: center;
+        &-title{
+            margin: 0;
+        }
+        &-status{
+            color: red;
+            &--online{
+                color: green;
+            }
+        }
+    }
+}
