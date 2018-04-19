@@ -26,18 +26,18 @@ class Main extends Component {
         let isLoggedIn = true;
         /* Some css code has been removed for brevity */
         return (
-            <div className = "container">
-                <header className = "section-header">
+            <div className = "container sticky-footer">
+                <header className = "section-header row">
                     <Header/>
                 </header>
                 <div className = "clearfix"></div>
 
                 {isLoggedIn ? (
                     <section className = "wrapper row">
-                        <aside className = "section-sidebar col-md-2">
+                        <aside className = "section-sidebar col-md-3">
                             <Sidebar/>
                         </aside>
-                        <section className = "section-content col-md-10">
+                        <section className = "section-content col-md-9">
                             <Content/>
                         </section>
                     </section>
