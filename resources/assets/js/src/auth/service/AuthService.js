@@ -1,23 +1,33 @@
-import {RequestService} from "../../common/service/RequestService";
+import {RequestService} from "./../../common/service/RequestService";
 
 export class AuthService {
     // Initializing important variables
-    constructor(path) {
-        this.path = path || 'login' // API server domain
-        this.RequestService = new RequestService();
+    constructor() {
         this.login = this.login.bind(this)
         this.getProfile = this.getProfile.bind(this)
+        this.requestService = new RequestService();
     }
 
     login(email, password) {
-        // Get a token from api server using the fetch api
-        return this.RequestService.fetch(this.path, {
-            method: 'POST',
+
+        let path = 'login';
+        
+        let params = {
+            credentials: 'include',
             body: JSON.stringify({
                 email,
                 password
-            })
-        }).then(res => {
+            }),
+            method: 'POST'
+        };
+        // Setting Authorization header
+        // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
+        if (this.loggedIn()) {
+            return this.getProfile();
+            // params.headers = {'Authorization': 'Bearer ' + this.getToken()};
+        }
+        // Get a token from api server using the fetch api
+        return this.requestService.fetch(this.path, params).then(res => {
             this.setToken(res.token) // Setting the token in localStorage
             return Promise.resolve(res);
         });
@@ -26,7 +36,7 @@ export class AuthService {
     loggedIn() {
         // Checks if there is a saved token and it's still valid
         const token = this.getToken() // GEtting token from localstorage
-        return !!token && !this.isTokenExpired(token) // handwaiving here
+        return !!token && !this.checkToken() // handwaiving here
     }
 
     /*

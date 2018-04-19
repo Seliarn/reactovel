@@ -6,7 +6,7 @@ export class Login extends Component {
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.Auth = new AuthService();
     }
 
@@ -18,15 +18,14 @@ export class Login extends Component {
         )
     }
 
-    handleFormSubmit(e) {
+    handleSubmit(e) {
         e.preventDefault();
-
         this.Auth.login(this.state.email, this.state.password)
             .then(res => {
                 this.props.history.replace('/');
             })
             .catch(err => {
-                alert(err);
+                console.log(err);
             })
     }
 
@@ -42,7 +41,7 @@ export class Login extends Component {
                                     <div className = "col-md-offset-2 col-md-8 col-md-offset-2">
                                         {/*error !== undefined && <div className = {name} role = "alert">{msg}</div>*/}
                                     </div>
-                                    <form className = "form-horizontal" role = "form">
+                                    <form className = "form-horizontal" role = "form" onSubmit = {this.handleSubmit}>
                                         <div className = "form-group">
                                             <label htmlFor = "email" className = "col-md-4 control-label">E-Mail Address</label>
 
@@ -73,10 +72,7 @@ export class Login extends Component {
 
                                         <div className = "form-group">
                                             <div className = "col-md-8 col-md-offset-4">
-                                                <button type = "submit" className = "btn btn-primary">
-                                                    Login
-                                                </button>
-
+                                                <input type = "submit" className = "btn btn-primary" value = "Login"/>
                                                 <li className = "btn btn-link">
                                                     {/*<Link to = "forgotpassword">Forgot Your Password?</Link>*/}
                                                 </li>

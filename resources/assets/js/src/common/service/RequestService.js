@@ -1,35 +1,22 @@
 export class RequestService {
-    constructor(path, args = {}) {
-        this.path = path; // API server domain
-        this.options = args.options || {method: 'GET'}; // API server domain
-        this.headers = args.headers || {
+    constructor() {
+        this.headers = {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         };
 
         this.fetch = this.fetch.bind(this) // React binding stuff
     }
 
     fetch(path, options) {
-        // performs api calls sending the required authentication headers
-        const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-
-        // Setting Authorization header
-        // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-        if (this.loggedIn()) {
-            headers['Authorization'] = 'Bearer ' + this.getToken()
-        }
-
-        return fetch(path, {
-            headers,
-            ...options
-        })
+        options.headers = {...options.headers, ...this.headers};
+        console.log(path, options);
+        return fetch(path, options)
             .then(this._checkStatus)
             .then(response => response.json())
     }
+
 
     _checkStatus(response) {
         // raises an error in case response status is not a success
