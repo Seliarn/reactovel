@@ -3,11 +3,19 @@ import React, {Component} from 'react';
 export class MainMenu extends Component {
     render() {
         return (
-            <ul className = "nav navbar-nav">
-                <li><a href = "#">Home</a></li>
-                <li><a href = "#">Articles</a></li>
-                <li><a href = "#">Categories</a></li>
-            </ul>
+            <div className = "collapse navbar-collapse justify-content-end" id = "navbarSupportedContent">
+                <ul className = "navbar-nav">
+                    <li className = "nav-item active">
+                        <a className = "nav-link" href = "#">Home <span className = "sr-only">(current)</span></a>
+                    </li>
+                    <li className = "nav-item">
+                        <a className = "nav-link" href = "#">Articles <span className = "sr-only">(current)</span></a>
+                    </li>
+                    <li className = "nav-item">
+                        <a className = "nav-link" href = "#">Categorise <span className = "sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
         );
     }
 }

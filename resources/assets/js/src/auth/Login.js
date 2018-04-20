@@ -7,7 +7,7 @@ export class Login extends Component {
         super();
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.Auth = new AuthService();
+        this.authService = new AuthService();
     }
 
     handleChange(e) {
@@ -20,13 +20,14 @@ export class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.Auth.login(this.state.email, this.state.password)
+        this.authService.login(this.state.email, this.state.password);
+        /*
             .then(res => {
                 this.props.history.replace('/');
             })
             .catch(err => {
                 console.log(err);
-            })
+            })*/
     }
 
     render() {
@@ -65,18 +66,18 @@ export class Login extends Component {
                                             </div>
                                         </div>*/}
 
-                                        <div className = "form-group">
-                                            <div className = "">
-                                                <input type = "submit" className = "btn btn-primary"value = "
+                        <div className = "form-group">
+                            <div className = "">
+                                <input type = "submit" className = "btn btn-primary" value = "
                                                     Login
                                                 "/>
 
-                                                <li className = "btn btn-link">
-                                                    {/*<Link to = "forgotpassword">Forgot Your Password?</Link>*/}
-                                                </li>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <li className = "btn btn-link">
+                                    {/*<Link to = "forgotpassword">Forgot Your Password?</Link>*/}
+                                </li>
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
             </div>

@@ -62,7 +62,7 @@ export class Article extends Component {
         const {error, isLoaded} = this.state;
         if (error) {
             if (error.response.status == 401) {
-                return <Redirect to="login"/>
+                return <Redirect to = "login"/>
             }
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {

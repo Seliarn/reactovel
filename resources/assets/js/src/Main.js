@@ -20,6 +20,7 @@ class Main extends Component {
 
     render() {
         let isLoggedIn = this.state.isLoggedIn;
+        console.log('Logged: ' + isLoggedIn);
         /* Some css code has been removed for brevity */
         return (
             <div className = "container sticky-footer">
