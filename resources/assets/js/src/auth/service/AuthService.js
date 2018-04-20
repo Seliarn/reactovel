@@ -23,14 +23,17 @@ export class AuthService {
         // Setting Authorization header
         // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
         if (this.loggedIn()) {
-            return this.getToken();
+            return this.getApiToken();
             // params.headers = {'Authorization': 'Bearer ' + this.getToken()};
         }
         // Get a token from api server using the fetch api
         return this.requestService.fetch(path, params).then(res => {
-            this.setToken(res.token); // Setting the token in localStorage
-            return Promise.resolve(res);
-        });
+                if (res.data && typeof res.data.token !== 'undefined') {
+                    this.setToken(res.data.token); // Setting the token in localStorage
+                }
+                return Promise.resolve(res);
+            }
+        );
     }
 
     logout() {
@@ -46,7 +49,8 @@ export class AuthService {
 
     getApiToken() {
         // Retrieves the user token from localStorage
-        return localStorage.getItem('token')
+        let token = localStorage.getItem('token');
+        return (token && typeof token !== 'undefined') ? token : false;
     }
 
 
@@ -62,7 +66,7 @@ export class AuthService {
 
     loggedIn() {
         // Checks if there is a saved token and it's still valid
-        const token = this.getApiToken(); // GEtting token from localstorage
+        let token = this.getApiToken(); // GEtting token from localstorage
         return !!token && !this.checkToken() // handwaiving here
     }
 }
