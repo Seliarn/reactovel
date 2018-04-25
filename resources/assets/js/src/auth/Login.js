@@ -20,14 +20,13 @@ export class Login extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.authService.login(this.state.email, this.state.password);
-        /*
+        this.authService.login(this.state.email, this.state.password)
             .then(res => {
                 this.props.history.replace('/');
             })
             .catch(err => {
                 console.log(err);
-            })*/
+            });
     }
 
     render() {

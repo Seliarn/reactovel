@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import {ContentService} from "./service/ContentService";
 
 export class Article extends Component {
 
@@ -13,7 +13,8 @@ export class Article extends Component {
             current: null,
             isLoaded: false,
             error: null,
-        }
+        };
+        this.contentService = new ContentService();
     }
 
     /*componentDidMount() is a lifecycle method
@@ -21,15 +22,18 @@ export class Article extends Component {
      */
     componentDidMount() {
         /* fetch API in action */
-        axios.get('/api/articles', {
-            headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')},
-        })
+        let path = 'articles';
+
+        let params = {
+            method: 'GET'
+        };
+
+        return this.contentService.getContent(path, params)
             .then(response => {
-                response.json();
                 this.setState({
-                    articles: articles,
+                    articles: response.content,
                     isLoaded: true
-                });
+                })
             })
             .catch(error => {
                 this.setState({

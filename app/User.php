@@ -9,6 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const API_TOKEN_LIFETIME = 86400;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,8 +35,21 @@ class User extends Authenticatable
     public function generateToken()
     {
         $this->api_token = str_random(60);
+        $this->api_token_expire = time() + static::API_TOKEN_LIFETIME;
         $this->save();
 
-        return $this->api_token;
+        return $this->getToken();
+    }
+
+    public function checkApiToken()
+    {
+        if ($this->api_token_expire < time()) {
+            return false;
+        }
+    }
+
+    public function getToken()
+    {
+        return ['api_token' => $this->api_token, 'api_token_expire' => $this->api_token_expire];
     }
 }

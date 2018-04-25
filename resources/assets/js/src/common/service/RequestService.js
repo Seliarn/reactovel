@@ -13,8 +13,8 @@ export class RequestService {
         options.headers = {...options.headers, ...this.headers};
         console.log(path, options);
         return fetch(path, options)
-            .then(this._checkStatus)
             .then(response => response.json())
+            .catch(error => console.log(error.statusText))
     }
 
 

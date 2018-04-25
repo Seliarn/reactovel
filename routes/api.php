@@ -17,7 +17,7 @@ Route::middleware('auth:api')
         return $request->user();
     });
 */
-Route::group(['middleware' => ['csrf', 'auth:api']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::get('articles', '\App\Http\Controllers\Common\ArticlesController@index');
     Route::get('articles/{id}', '\App\Http\Controllers\Common\ArticlesController@show');
     Route::post('articles', '\App\Http\Controllers\Common\ArticlesController@create');

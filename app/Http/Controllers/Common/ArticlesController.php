@@ -25,7 +25,15 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        return Article::all();
+        $articles = Article::all();
+        return response()->json([
+            'data' => [
+                'content' => $articles,
+                'meta' => [
+                    'totalCount' => $articles->count()
+                ]
+            ]
+        ], Response::HTTP_OK);
     }
 
     /**

@@ -14,13 +14,13 @@ class Main extends Component {
 
         super();
         //Initialize the state in the constructor
-        this.AuthService = new AuthService();
-        this.state = {isLoggedIn: this.AuthService.checkToken()};
+        this.authService = new AuthService();
+        this.state = {isLoggedIn: this.authService.checkToken()};
     }
 
     render() {
         let isLoggedIn = this.state.isLoggedIn;
-        console.log('Logged: ' + isLoggedIn);
+        console.log('Authorized: ' + isLoggedIn);
         /* Some css code has been removed for brevity */
         return (
             <div className = "container sticky-footer">
