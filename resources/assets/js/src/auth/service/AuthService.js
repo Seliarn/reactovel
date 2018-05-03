@@ -38,6 +38,20 @@ export class AuthService {
     }
 
     logout() {
+        let path = 'logout';
+        let params = {
+            method: 'POST'
+        };
+
+        return this.requestService.fetch(path, params).then(res => {
+                if (res.data && typeof res.data.api_token !== 'undefined' && typeof res.data.api_token_expire !== 'undefined') {
+                    this._setToken(res.data.api_token, res.data.api_token_expire); // Setting the token in localStorage
+                    console.log('Logged', this.getApiToken());
+                }
+                return Promise.resolve(res);
+            }
+        );
+
         // Clear user token and profile data from localStorage
         this._unsetToken();
     }

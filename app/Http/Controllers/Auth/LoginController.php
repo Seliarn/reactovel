@@ -66,6 +66,7 @@ class LoginController extends Controller
 
         if ($user) {
             $user->api_token = null;
+            $user->api_token_expire = null;
             $user->save();
         }
 
