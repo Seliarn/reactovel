@@ -5,8 +5,14 @@ export class AuthService {
     constructor() {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
+        this.check = this.check.bind(this);
         this.getApiToken = this.getApiToken.bind(this);
         this.checkToken = this.checkToken.bind(this);
+        this.saveToken = this.saveToken.bind(this);
+        this.deleteToken = this.deleteToken.bind(this);
+        this._getApiToken = this._getApiToken.bind(this);
+        this._getApiTokenExpire = this._getApiTokenExpire.bind(this);
+
         this.requestService = new RequestService();
     }
 
@@ -22,17 +28,20 @@ export class AuthService {
             }),
             method: 'POST'
         };
+
         if (this.checkToken()) {
             console.log('Already logged:', this.getApiToken());
             return this.getApiToken();
         }
 
-        return this.requestService.fetch(path, params).then(res => {
-                if (res.data && typeof res.data.api_token !== 'undefined' && typeof res.data.api_token_expire !== 'undefined') {
-                    this._setToken(res.data.api_token, res.data.api_token_expire); // Setting the token in localStorage
+        return this.requestService.fetch(path, params).then(
+            response => {
+                if (response.data && typeof response.data.api_token !== 'undefined' && typeof response.data.api_token_expire !== 'undefined') {
+                    this.saveToken(response.data.api_token, response.data.api_token_expire); // Setting the token in localStorage
                     console.log('Logged', this.getApiToken());
                 }
-                return Promise.resolve(res);
+
+                return Promise.resolve(response);
             }
         );
     }
@@ -43,35 +52,55 @@ export class AuthService {
             method: 'POST'
         };
 
-        return this.requestService.fetch(path, params).then(res => {
-                if (res.data && typeof res.data.api_token !== 'undefined' && typeof res.data.api_token_expire !== 'undefined') {
-                    this._setToken(res.data.api_token, res.data.api_token_expire); // Setting the token in localStorage
-                    console.log('Logged', this.getApiToken());
+        return this.requestService.fetch(path, params).then(
+            response => {
+                if (response.data) {
+                    console.log('Logged out', response.data);
                 }
-                return Promise.resolve(res);
+
+                // Clear user token and profile data from localStorage
+                this.deleteToken();
+
+                return Promise.resolve(response);
             }
         );
-
-        // Clear user token and profile data from localStorage
-        this._unsetToken();
     }
 
-    getApiToken(check = false) {
-        return this._getToken();
+    check() {
+        let api_token = this._getApiToken();
+        let path = 'refresh';
+        let params = {
+            method: 'POST',
+            body: JSON.stringify({
+                api_token
+            }),
+        };
+
+        return this.requestService.fetch(path, params).then(
+            response => {
+                if (response.data && typeof response.data.api_token !== 'undefined' && typeof response.data.api_token_expire !== 'undefined') {
+                    this.saveToken(response.data.api_token, response.data.api_token_expire); // Setting the token in localStorage
+                    console.log('Logged', this.getApiToken());
+                }
+
+                return Promise.resolve(response);
+            }
+        );
     }
 
+    getApiToken() {
+        return this._getApiToken();
+    }
 
     isTokenExpired(timestamp) {
         return !!(Date.now() / 1000) < timestamp
     }
 
     checkToken() {
-        let token = this._getToken();
-        if (token && this.isTokenExpired(token.api_token_expire)) {
-            return true;
-        }
+        let token = this._getApiToken();
+        let api_token_expire = this._getApiTokenExpire();
 
-        return false;
+        return token && !this.isTokenExpired(api_token_expire);
     }
 
 
@@ -79,34 +108,51 @@ export class AuthService {
      * Private methods
      */
 
-    _getToken(token, expiration) {
+    _getApiToken() {
 
-        let api_token = localStorage.getItem('api_token');
-        let api_token_expire = localStorage.getItem('api_token_expire');
+        let api_token = this._getDataFromLocalStorage('api_token');
 
         if (!api_token || typeof api_token === 'undefined') {
             console.log('Undefined api_token');
             return false;
         }
+
+        return api_token;
+    }
+
+    _getApiTokenExpire() {
+
+        let api_token_expire = this._getDataFromLocalStorage('api_token_expire');
+
         if (!api_token_expire || typeof api_token_expire === 'undefined') {
             console.log('Undefined api_token_expire');
             return false;
         }
 
-        return {
-            api_token: api_token,
-            api_token_expire: api_token_expire
-        };
+        return api_token_expire;
     }
 
-    _setToken(token, expiration) {
+    saveToken(token, expiration) {
         // Saves user token to localStorage
-        localStorage.setItem('api_token', token);
-        localStorage.setItem('api_token_expire', expiration);
+        this._setDataToLocalStorage('api_token', token);
+        this._setDataToLocalStorage('api_token_expire', expiration);
     }
 
-    _unsetToken(token, expiration) {
-        localStorage.removeItem('api_token');
-        localStorage.removeItem('api_token_expire');
+    deleteToken() {
+        // Saves user token to localStorage
+        this._unsetDataFromLocalStorage('api_token');
+        this._unsetDataFromLocalStorage('api_token_expire');
+    }
+
+    _setDataToLocalStorage(field, value) {
+        localStorage.setItem(field, value);
+    }
+
+    _unsetDataFromLocalStorage(field) {
+        localStorage.removeItem(field);
+    }
+
+    _getDataFromLocalStorage(field) {
+        localStorage.getItem(field);
     }
 }

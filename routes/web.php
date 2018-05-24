@@ -15,7 +15,7 @@
     return view('welcome');
 });*/
 
-Auth::routes();
+//\Illuminate\Support\Facades\Auth::routes();
 
 Route::get('/', 'HomeController@index');
 Route::get('login', 'HomeController@index')->name('login');
@@ -26,3 +26,4 @@ Route::get('home', 'HomeController@index');
  vendor/laravel/framework/src/Illuminate/Routing/Router.php
  public function auth()
  */
+Route::post('refresh','\App\Http\Controllers\Auth\LoginController@refresh');

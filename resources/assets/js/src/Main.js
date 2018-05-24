@@ -13,9 +13,10 @@ class Main extends Component {
     constructor() {
 
         super();
+
         //Initialize the state in the constructor
         this.authService = new AuthService();
-        this.state = {isLoggedIn: this.authService.checkToken()};
+        this.state = {isLoggedIn: true /*this.authService.check()*/};
     }
 
     render() {
@@ -23,28 +24,21 @@ class Main extends Component {
         console.log('Authorized: ' + isLoggedIn);
         /* Some css code has been removed for brevity */
         return (
-            <div className = "container sticky-footer">
-                <header className = "section-header row">
+            <div className="container sticky-footer">
+                <header className="section-header row">
                     <Header/>
                 </header>
-                <div className = "clearfix"></div>
-
-                {isLoggedIn ? (
-                    <section className = "wrapper row">
-                        <aside className = "section-sidebar col-md-3">
+                <div className="clearfix"></div>
+                    <section className="wrapper row">
+                        <aside className="section-sidebar col-md-3">
                             <Sidebar/>
                         </aside>
-                        <section className = "section-content col-md-9">
+                        <section className="section-content col-md-9">
                             <Content/>
                         </section>
                     </section>
-                ) : (
-                    <section className = "section-auth row">
-                        <Auth/>
-                    </section>
-                )}
-                <div className = "clearfix"></div>
-                <footer className = "section-footer">
+                <div className="clearfix"></div>
+                <footer className="section-footer">
                     <Footer/>
                 </footer>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -53,7 +54,7 @@ class LoginController extends Controller
 
             return response()->json([
                 'data' => $user->toArray(),
-                200
+                Response::HTTP_OK
             ]);
         }
 
@@ -62,6 +63,9 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        /**
+         * @var User $user
+         */
         $user = Auth::guard('api')->user();
 
         if ($user) {
@@ -70,6 +74,29 @@ class LoginController extends Controller
             $user->save();
         }
 
-        return response()->json(['data' => 'User logged out.'], 200);
+        return response()->json(['data' => 'User logged out.'], Response::HTTP_OK);
+    }
+
+    public function refresh(Request $request)
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->guard()->user();
+
+        if ($user) {
+            if ($user->checkApiToken($request['api_token'])) {
+                $response = $user->generateToken();
+
+                return response()->json([
+                    'data' => $response,
+                    Response::HTTP_OK
+                ]);
+            } else {
+                $user->resetToken();
+            }
+        }
+
+        return response()->json(['data' => 'User logged out.'], Response::HTTP_UNAUTHORIZED);
     }
 }

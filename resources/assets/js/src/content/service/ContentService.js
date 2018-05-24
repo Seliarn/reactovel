@@ -33,9 +33,9 @@ export class ContentService {
             params.body = JSON.stringify(args.params);
         }
 
-        if (!this.authService.checkToken()) {
+        /*if (!this.authService.checkToken()) {
             return <Redirect to = "login"/>
-        }
+        }*/
 
         return this.requestService.fetch(path, params).then(res => {
                 if (res.data) {

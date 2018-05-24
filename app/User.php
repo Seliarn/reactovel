@@ -41,15 +41,21 @@ class User extends Authenticatable
         return $this->getToken();
     }
 
-    public function checkApiToken()
+    public function checkApiToken($apiToken)
     {
-        if ($this->api_token_expire < time()) {
-            return false;
-        }
+        return $apiToken === $this->api_token &&
+            $this->api_token_expire < time();
     }
 
     public function getToken()
     {
         return ['api_token' => $this->api_token, 'api_token_expire' => $this->api_token_expire];
+    }
+
+    public function resetToken()
+    {
+        $this->api_token = null;
+        $this->api_token_expire = null;
+        $this->save();
     }
 }
