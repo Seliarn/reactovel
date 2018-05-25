@@ -5,13 +5,16 @@ export class Footer extends Component {
     render() {
         /* Some css code has been removed for brevity */
         return (
-            <div className = "row footer">
-                <div className = "col-md-2">
-                    <div id = "logo">
+            <div className="row footer">
+                <div className="col-md-2">
+                    <div id="logo">
                         LOGO
                     </div>
                 </div>
-                <div className = "col-md-10">
+                <div className="col-md-2">
+                    Recourse : <a href="http://gog.com" target="_blank">gog.com</a>
+                </div>
+                <div className="col-md-8">
                     <Contacts/>
                 </div>
             </div>

@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ArticlesController extends Controller
 {
+    const MAIL_SUBJECT = 'Your order #';
+
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
@@ -38,7 +40,15 @@ class ArticlesController extends Controller
 
     public function show($id)
     {
-        return Article::find($id);
+        $article = Article::find($id);
+        return response()->json([
+            'data' => [
+                'content' => [$article],
+                'meta' => [
+                    'totalCount' => $article->count()
+                ]
+            ]
+        ], Response::HTTP_OK);
     }
 
     public function create(Request $request)
@@ -64,10 +74,24 @@ class ArticlesController extends Controller
 
     public function buy(Request $request)
     {
-        $productId = $request->get('productId', false);
-        if ($productId && $article = Article::find($productId)) {
-            $ordermanager = new OrderManager();
-            return $ordermanager->generateOrder($article, 'html');
+        $validatedData = $request->validate([
+            'email' => 'required|email|max:255',
+            'articleId' => 'required|integer',
+        ]);
+
+        if ($article = Article::find($validatedData['articleId'])) {
+            $orderManager = new OrderManager();
+            $result = $orderManager->generateOrder($article, 'json');
+
+
+            $subject = self::MAIL_SUBJECT . $orderManager->getOrder();
+            mail($validatedData['email'], $subject, $result);
+
+            return response()->json([
+                true
+            ], Response::HTTP_CREATED);
+        } else {
+            response()->json(null, Response::HTTP_NO_CONTENT);
         }
     }
 }

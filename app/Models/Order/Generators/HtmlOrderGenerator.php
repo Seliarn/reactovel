@@ -10,6 +10,6 @@ class HtmlOrderGenerator implements \App\Models\Order\OrderGeneratorInterface
 
     function generate(OrderInterface $order)
     {
-        return \Illuminate\Support\Facades\View::make($this->_template, ['order' => $order]);
+        return \Illuminate\Support\Facades\View::make($this->_template, ['order' => $order])->render();
     }
 }

@@ -10,8 +10,8 @@ export class Content extends Component {
             <Router>
                 <Switch>
                     <Route exact path = '/' component = {Article}/>
-                    <Route path = '/login' component = {Auth}/>
-                    {/*<Route path = '/register' component = {Register}/>
+                    {/*<Route path = '/login' component = {Auth}/>
+                    <Route path = '/register' component = {Register}/>
                     <Route path = '/home' component = {Home}/>
                     <Route path = '/forgotpassword' component = {Forgot}/>
                     <Route path = '/password/reset/:token' component = {Reset}/>*/}

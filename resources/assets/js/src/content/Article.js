@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {ContentService} from "./service/ContentService";
+import {OrderService} from "./service/OrderService";
+import Order from "./order/Order";
 
 export class Article extends Component {
 
@@ -15,6 +17,8 @@ export class Article extends Component {
             error: null,
         };
         this.contentService = new ContentService();
+        this.orderService = new OrderService();
+        this.handleMakeOrder = this.handleMakeOrder.bind(this);
     }
 
     /*componentDidMount() is a lifecycle method
@@ -33,11 +37,15 @@ export class Article extends Component {
             })
             .catch(error => {
                 this.setState({
-                    isLoaded: true,
+                    isLoaded: false,
                     error
                 });
                 console.log(error);
             });
+    }
+
+    handleMakeOrder(article) {
+        this.orderService.createOrder('articles', article.id);
     }
 
     renderArticles() {
@@ -47,14 +55,25 @@ export class Article extends Component {
                     {this.state.articles.map(article => {
                         return (
                             <div className="col-md-4 item" key={article.id}>
-                                <h3>{article.title}</h3>
-                                <div class="item-text">
-                                    {article.content}
+                                <div className="row item-content">
+                                    <div className="col-md-12">
+                                        <h3>{article.title}</h3>
+                                        {article.content}
+                                    </div>
+                                </div>
+                                <div className="item-bottom row">
+                                    <div className="item-price col-md-6">
+                                        {article.price}
+                                    </div>
+                                    <div className="item-controls col-md-6">
+                                        <button className="button button-blue" onClick={() => this.handleMakeOrder(article)}>Buy</button>
+                                    </div>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
+                <Order article={this.state.current}/>
             </div>)
     }
 
