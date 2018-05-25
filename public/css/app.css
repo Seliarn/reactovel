@@ -10057,6 +10057,15 @@ a.text-dark:focus {
   padding-top: 15px;
 }
 
+.item-text {
+  overflow: hidden;
+  max-height: 165px;
+}
+
+.item {
+  margin-top: 10px;
+}
+
 .sticky-footer {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -1,11 +1,12 @@
 import {RequestService} from "./../../common/service/RequestService";
 import {AuthService} from './../../auth/service/AuthService';
-import {Redirect} from 'react-router-dom';
 
 export class ContentService {
 
     getContentType(name) {
         switch (name) {
+            case 'order':
+                return 'api/order/generate';
             case 'articles':
                 return '/api/articles';
                 break;
@@ -22,6 +23,31 @@ export class ContentService {
 
     getContent(contentType, args) {
 
+        let path = this.getContentType(contentType);
+
+        let params = {
+            method: 'GET',
+            headers: this.headers
+        };
+
+        if (args && args.params) {
+            params.body = JSON.stringify(args.params);
+        }
+
+        /*if (!this.authService.checkToken()) {
+            return <Redirect to = "login"/>
+        }*/
+
+        return this.requestService.fetch(path, params).then(res => {
+                if (res.data) {
+                    console.log('Returned: ', res.data.meta.totalCount);
+                }
+                return Promise.resolve(res.data);
+            }
+        );
+    }
+
+    createContent(contentType, args) {
         let path = this.getContentType(contentType);
 
         let params = {

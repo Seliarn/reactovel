@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
-use App\Models\Pages\IPage;
+use App\Models\Order\OrderManager;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,19 +36,11 @@ class ArticlesController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * @param IPage $article
-     * @return IPage
-     */
     public function show($id)
     {
         return Article::find($id);
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function create(Request $request)
     {
         $article = Article::create($request->all());
@@ -56,11 +48,6 @@ class ArticlesController extends Controller
         return response()->json($article, Response::HTTP_CREATED);
     }
 
-    /**
-     * @param Request $request
-     * @param Article $article
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(Request $request, Article $article)
     {
         $article->update($request->all());
@@ -68,15 +55,19 @@ class ArticlesController extends Controller
         return response()->json($article, Response::HTTP_OK);
     }
 
-    /**
-     * @param Article $article
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
     public function delete(Article $article)
     {
         $article->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function buy(Request $request)
+    {
+        $productId = $request->get('productId', false);
+        if ($productId && $article = Article::find($productId)) {
+            $ordermanager = new OrderManager();
+            return $ordermanager->generateOrder($article, 'html');
+        }
     }
 }

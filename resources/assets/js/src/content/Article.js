@@ -24,11 +24,7 @@ export class Article extends Component {
         /* fetch API in action */
         let path = 'articles';
 
-        let params = {
-            method: 'GET'
-        };
-
-        return this.contentService.getContent(path, params)
+        return this.contentService.getContent(path)
             .then(response => {
                 this.setState({
                     articles: response.content,
@@ -46,13 +42,13 @@ export class Article extends Component {
 
     renderArticles() {
         return (
-            <div className = "container-fluid text-center">
-                <div className = "row">
+            <div className="container-fluid text-center">
+                <div className="row">
                     {this.state.articles.map(article => {
                         return (
-                            <div className = "col-md-4" key = {article.id}>
+                            <div className="col-md-4 item" key={article.id}>
                                 <h3>{article.title}</h3>
-                                <div>
+                                <div class="item-text">
                                     {article.content}
                                 </div>
                             </div>
@@ -66,7 +62,7 @@ export class Article extends Component {
         const {error, isLoaded} = this.state;
         if (error) {
             if (error.response.status == 401) {
-                return <Redirect to = "login"/>
+                return <Redirect to="login"/>
             }
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model implements Pages\IPage
+class Article extends Model implements ProductInterface
 {
     /**
      * The attributes that are mass assignable.
@@ -30,5 +30,15 @@ class Article extends Model implements Pages\IPage
     public function getTitle()
     {
         // TODO: Implement getTitle() method.
+    }
+
+
+    function getProductDataForOrder()
+    {
+        return [
+            'product_id' => $this->id,
+            'title' => $this->title,
+            'price' => $this->price
+        ];
     }
 }
