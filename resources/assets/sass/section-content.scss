@@ -2,11 +2,16 @@
   padding-top: 15px;
 }
 
-.item-text {
+
+.item-content {
+  height: 90%;
   overflow: hidden;
-  max-height: 165px;
+}
+.item-bottom {
+  height: 10%;
 }
 
 .item {
   margin-top: 10px;
+  height: 300px;
 }

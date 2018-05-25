@@ -5,8 +5,6 @@ export class ContentService {
 
     getContentType(name) {
         switch (name) {
-            case 'order':
-                return 'api/order/generate';
             case 'articles':
                 return '/api/articles';
                 break;
@@ -16,7 +14,7 @@ export class ContentService {
     };
 
     constructor() {
-        this.headers = {'Authorization': 'Bearer ' + localStorage.getItem('api_token')};
+        this.headers = {'Authorization': 'Bearer '};// + localStorage.getItem('api_token')};
         this.requestService = new RequestService();
         this.authService = new AuthService();
     }
