@@ -1,25 +1,37 @@
 import React from 'react';
 
 const Order = ({article}) => {
+    this.state.email = '';
     if (article) {
         return (
-            <div id="order" class="modal-sm fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Enter your email</h4>
+            <div id="order" className="modal modal-sm fade" role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                            <h4 className="modal-title">Enter your email</h4>
                         </div>
-                        <div class="modal-body">
-                            <form id="buy-article">
-                                <input type="hidden" name="articleId" value={article.id}/>
-                                <input id="email" name="email" value=""/>
+                        <div className="modal-body">
+                            <p>{article.title}</p>
+                            <form id="buy-article" action="">
+                                <input type="hidden" name="articleId" value={article.id} required/>
+                                <input id="email" name="email" value={this.state.email} required/>
                                 <br/>
-                                <input type="submit" value="Submit"/>
+                                <button className="btn btn-info btn-lg"
+                                        onClick={() =>
+                                            this.orderServic.createOrder(
+                                                'article', {
+                                                    params: {
+                                                        articleId: article.id,
+                                                        email: this.state.email
+                                                    }
+                                                })}>
+                                    Submit
+                                </button>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -28,6 +40,6 @@ const Order = ({article}) => {
     } else {
         return '';
     }
-}
+};
 
 export default Order;

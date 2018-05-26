@@ -45,7 +45,8 @@ export class Article extends Component {
     }
 
     handleMakeOrder(article) {
-        this.orderService.createOrder('articles', article.id);
+        // this.orderService.createOrder('articles', article.id);
+        this.setState({current: article});
     }
 
     renderArticles() {
@@ -66,23 +67,28 @@ export class Article extends Component {
                                         {article.price}
                                     </div>
                                     <div className="item-controls col-md-6">
-                                        <button className="button button-blue" onClick={() => this.handleMakeOrder(article)}>Buy</button>
+                                        <button className="btn btn-info btn-lg"
+                                                data-toggle="modal"
+                                                data-target="#order"
+                                                onClick={() => this.handleMakeOrder(article)}>
+                                            Buy
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
-                <Order article={this.state.current}/>
+                <Order article={this.state.current} orderService={this.orderService}/>
             </div>)
     }
 
     render() {
         const {error, isLoaded} = this.state;
         if (error) {
-            if (error.response.status == 401) {
+            /*if (error.status == 401) {
                 return <Redirect to="login"/>
-            }
+            }*/
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return <div>Loading...</div>;
