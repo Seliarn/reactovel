@@ -7,28 +7,18 @@ use App\Models\ProductInterface;
 
 class OrderManager
 {
-    private $_order;
-    private $_orderGenerators = [
-        'html' => '\App\Models\Order\Generators\HtmlOrderGenerator',
-    ];
+	private $_order;
 
-    function generateOrder(ProductInterface $product, $format = 'html', $params = [])
-    {
-        if (key_exists($format, $this->_orderGenerators)) {
-            $data = $product->getProductDataForOrder();
-            $this->_order = Order::create($data);
+	function generateOrder(ProductInterface $product, OrderGeneratorInterface $generator, $params = [])
+	{
+		$data = $product->getProductDataForOrder();
+		$this->_order = Order::create($data);
+		$result = $generator->generate($this->_order);
+		return $result;
+	}
 
-            /**
-             * @var $generator OrderGeneratorInterface
-             */
-            $generator = new $this->_orderGenerators[$format]();
-            $result = $generator->generate($this->_order);
-            return $result;
-        }
-    }
-
-    function getOrder()
-    {
-        return $this->_order;
-    }
+	function getOrder()
+	{
+		return $this->_order;
+	}
 }

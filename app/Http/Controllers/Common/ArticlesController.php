@@ -10,7 +10,10 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\NotifyManager;
+use App\Models\Order\Generators\HtmlOrderGenerator;
 use App\Models\Order\OrderManager;
+use App\Models\Sender\Email;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,78 +23,77 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ArticlesController extends Controller
 {
-    const MAIL_SUBJECT = 'Your order #';
+	const MAIL_SUBJECT = 'Your order #';
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function index()
-    {
-        $articles = Article::all();
-        return response()->json([
-            'data' => [
-                'content' => $articles,
-                'meta' => [
-                    'totalCount' => $articles->count()
-                ]
-            ]
-        ], Response::HTTP_OK);
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public function index()
+	{
+		$articles = Article::all();
+		return response()->json([
+			'data' => [
+				'content' => $articles,
+				'meta' => [
+					'totalCount' => $articles->count()
+				]
+			]
+		], Response::HTTP_OK);
+	}
 
-    public function show($id)
-    {
-        $article = Article::find($id);
-        return response()->json([
-            'data' => [
-                'content' => [$article],
-                'meta' => [
-                    'totalCount' => $article->count()
-                ]
-            ]
-        ], Response::HTTP_OK);
-    }
+	public function show($id)
+	{
+		$article = Article::find($id);
+		return response()->json([
+			'data' => [
+				'content' => [$article],
+				'meta' => [
+					'totalCount' => $article->count()
+				]
+			]
+		], Response::HTTP_OK);
+	}
 
-    public function create(Request $request)
-    {
-        $article = Article::create($request->all());
+	public function create(Request $request)
+	{
+		$article = Article::create($request->all());
 
-        return response()->json($article, Response::HTTP_CREATED);
-    }
+		return response()->json($article, Response::HTTP_CREATED);
+	}
 
-    public function update(Request $request, Article $article)
-    {
-        $article->update($request->all());
+	public function update(Request $request, Article $article)
+	{
+		$article->update($request->all());
 
-        return response()->json($article, Response::HTTP_OK);
-    }
+		return response()->json($article, Response::HTTP_OK);
+	}
 
-    public function delete(Article $article)
-    {
-        $article->delete();
+	public function delete(Article $article)
+	{
+		$article->delete();
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
-    }
+		return response()->json(null, Response::HTTP_NO_CONTENT);
+	}
 
-    public function buy(Request $request)
-    {
-        $validatedData = $request->validate([
-            'email' => 'required|email|max:255',
-            'articleId' => 'required|integer',
-        ]);
+	public function buy(Request $request)
+	{
+		$validatedData = $request->validate([
+			'email' => 'required|email|max:255',
+			'articleId' => 'required|integer',
+		]);
 
-        if ($article = Article::find($validatedData['articleId'])) {
-            $orderManager = new OrderManager();
-            $result = $orderManager->generateOrder($article, 'json');
+		if ($article = Article::find($validatedData['articleId'])) {
+			$orderManager = new OrderManager();
+			$result = $orderManager->generateOrder($article, new HtmlOrderGenerator());
 
+			$subject = self::MAIL_SUBJECT . $orderManager->getOrder();
+			$email = new Email($validatedData['email'], $subject, $result);
+			$notifyManager = new NotifyManager();
+			$notifyManager->notify($email);
 
-            $subject = self::MAIL_SUBJECT . $orderManager->getOrder();
-            mail($validatedData['email'], $subject, $result);
-
-            return response()->json([
-                true
-            ], Response::HTTP_CREATED);
-        } else {
-            response()->json(null, Response::HTTP_NO_CONTENT);
-        }
-    }
+			return response()->json(true, Response::HTTP_CREATED);
+		} else {
+			response()->json(null, Response::HTTP_NO_CONTENT);
+		}
+	}
 }
