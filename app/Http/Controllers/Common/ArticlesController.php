@@ -13,7 +13,7 @@ use App\Models\Article;
 use App\Models\NotifyManager;
 use App\Models\Order\Generators\HtmlOrderGenerator;
 use App\Models\Order\OrderManager;
-use App\Models\Sender\Email;
+use App\Models\Notify\Email;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

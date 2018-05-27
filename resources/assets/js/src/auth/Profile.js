@@ -24,7 +24,7 @@ export class Profile extends Component {
                 </div>
                 <div className="user-panel__info">
                     <p className="user-panel__info-title">RectoVel Developer</p>
-                    <button type="button" className="user-panel__info-status user-panel__info-status--online" onClick={this.handleLogout.bind(this)}>Logout</button>
+                    {/*<button type="button" className="user-panel__info-status user-panel__info-status--online" onClick={this.handleLogout.bind(this)}>Logout</button>*/}
                 </div>
             </div>
         );

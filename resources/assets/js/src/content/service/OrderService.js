@@ -23,7 +23,7 @@ export class OrderService {
         let path = this.getContentType(contentType) + '/buy';
 
         let params = {
-            method: 'GET',
+            method: 'POST',
             headers: this.headers
         };
 
@@ -36,11 +36,11 @@ export class OrderService {
         }*/
 
         return this.requestService.fetch(path, params).then(response => {
-                if (response.data) {
-                    console.log(response.data);
+                if (response) {
+                    console.log("Creating order: " + response);
                 }
 
-                return Promise.resolve(response.data);
+                return Promise.resolve(response);
             }
         );
     }

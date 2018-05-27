@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import {ContentService} from "./service/ContentService";
-import {OrderService} from "./service/OrderService";
-import Order from "./order/Order";
+import {Order} from "./order/Order";
 
 export class Article extends Component {
 
@@ -17,8 +15,7 @@ export class Article extends Component {
             error: null,
         };
         this.contentService = new ContentService();
-        this.orderService = new OrderService();
-        this.handleMakeOrder = this.handleMakeOrder.bind(this);
+        this.handleBuyArticle = this.handleBuyArticle.bind(this);
     }
 
     /*componentDidMount() is a lifecycle method
@@ -44,9 +41,14 @@ export class Article extends Component {
             });
     }
 
-    handleMakeOrder(article) {
-        // this.orderService.createOrder('articles', article.id);
+    handleBuyArticle(article) {
         this.setState({current: article});
+    }
+
+    handleOrderComplite(article) {
+        $('.modal-header .close').click();
+        $('btn-buy-' + this.state.current.id).text('Bought').removeClass('btn-info').addClass('btn-default');
+        // this.state.current = null;
     }
 
     renderArticles() {
@@ -67,10 +69,10 @@ export class Article extends Component {
                                         {article.price}
                                     </div>
                                     <div className="item-controls col-md-6">
-                                        <button className="btn btn-info btn-lg"
+                                        <button id={'btn-buy-' + article.id} className="btn btn-info btn-md"
                                                 data-toggle="modal"
                                                 data-target="#order"
-                                                onClick={() => this.handleMakeOrder(article)}>
+                                                onClick={() => this.handleBuyArticle(article)}>
                                             Buy
                                         </button>
                                     </div>
@@ -79,7 +81,23 @@ export class Article extends Component {
                         );
                     })}
                 </div>
-                <Order article={this.state.current} orderService={this.orderService}/>
+                <div id="order" className="modal modal-sm fade" role="dialog">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <h4 className="modal-title">Enter your email</h4>
+                            </div>
+
+                            {this.state.current &&
+                            <Order article={this.state.current} hendelOrderComplete={this.handleOrderComplete}/>
+                            }
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>)
     }
 

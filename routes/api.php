@@ -19,7 +19,7 @@ Route::middleware('auth:api')
 */
 
 Route::get('articles', '\App\Http\Controllers\Common\ArticlesController@index');
-Route::get('articles/buy', '\App\Http\Controllers\Common\ArticlesController@buy');
+Route::post('articles/buy', '\App\Http\Controllers\Common\ArticlesController@buy');
 Route::get('articles/{id}', '\App\Http\Controllers\Common\ArticlesController@show');
 
 Route::get('categories', '\App\Http\Controllers\Common\ArticlesController@index');

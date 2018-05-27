@@ -1,5 +1,5 @@
 <?php
-namespace App\Models\Sender;
+namespace App\Models\Notify;
 
 use App\Models\SenderInterface;
 

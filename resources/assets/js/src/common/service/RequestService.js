@@ -14,7 +14,7 @@ export class RequestService {
         console.log(path, options);
         return fetch(path, options)
             .then(response => response.json())
-            .catch(error => console.log(error.statusText))
+            .catch(error => console.log(error))
     }
 
 
