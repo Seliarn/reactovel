@@ -23,6 +23,7 @@ export class Article extends Component {
         this.renderArticles = this.renderArticles.bind(this);
         this.handleMakeOrder = this.handleMakeOrder.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.renderArticles = this.renderArticles.bind(this);
     }
 
     /*componentDidMount() is a lifecycle method
