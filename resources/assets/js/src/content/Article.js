@@ -1,21 +1,28 @@
 import React, {Component} from 'react';
 import {ContentService} from "./service/ContentService";
-import {Order} from "./order/Order";
+import {OrderService} from "./service/OrderService";
 
 export class Article extends Component {
 
     constructor() {
 
         super();
+
         //Initialize the state in the constructor
         this.state = {
             articles: [],
-            current: null,
+            current: false,
             isLoaded: false,
             error: null,
+            email: '',
+            bought: false
         };
         this.contentService = new ContentService();
+        this.orderService = new OrderService();
         this.handleBuyArticle = this.handleBuyArticle.bind(this);
+        this.renderArticles = this.renderArticles.bind(this);
+        this.handleMakeOrder = this.handleMakeOrder.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     /*componentDidMount() is a lifecycle method
@@ -43,12 +50,35 @@ export class Article extends Component {
 
     handleBuyArticle(article) {
         this.setState({current: article});
+        console.log(this.state.current);
     }
 
     handleOrderComplite(article) {
         $('.modal-header .close').click();
-        $('btn-buy-' + this.state.current.id).text('Bought').removeClass('btn-info').addClass('btn-default');
+        $('#btn-buy-' + this.state.current.id).text('Bought').removeClass('btn-info').addClass('btn-default');
         // this.state.current = null;
+    }
+
+
+    handleMakeOrder(event) {
+        var componentOrder = this;
+        this.orderService.createOrder(
+            'articles', {
+                params: {
+                    articleId: this.state.current.id,
+                    email: this.state.email
+                }
+            })
+            .then(function (response) {
+                if (response) {
+                    console.log(componentOrder.setState({bought: componentOrder.state.current.id}));
+                }
+            });
+        event.preventDefault();
+    }
+
+    handleChange(event) {
+        this.setState({email: event.target.value});
     }
 
     renderArticles() {
@@ -86,9 +116,33 @@ export class Article extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
 
-                            {this.state.current &&
-                            <Order article={this.state.current} hendelOrderComplete={this.handleOrderComplete}/>
-                            }
+                            {this.state.current && (
+                                <div>
+                                    <div className="modal-header">
+                                        <h4 className="modal-title">{this.state.current.title}</h4>
+                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    {(this.state.current.id !== this.state.bought) ?
+                                        (
+                                            <div className="modal-body">
+                                                <p>Enter your e-mail</p>
+                                                <form id="buy-article" onSubmit={this.handleMakeOrder}>
+                                                    <input type="hidden" name="articleId" value={this.state.current.id} required/>
+                                                    <input id="email" name="email" value={this.state.email} onChange={this.handleChange} required/>
+                                                    <br/>
+                                                    <button className="btn btn-info btn-lg">
+                                                        Submit
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        ) : (
+                                            <div className="modal-body">
+                                                <p>You already bought this product</p>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            )}
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
