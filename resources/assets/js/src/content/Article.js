@@ -60,8 +60,9 @@ export class Article extends Component {
                             <div className="col-md-4 item" key={article.id}>
                                 <div className="row item-content">
                                     <div className="col-md-12">
-                                        <h3>{article.title}</h3>
-                                        {article.content}
+                                        <img src="http://via.placeholder.com/200x150" alt="" className='item-content__img'/>
+                                        <h3 className="item-content__title">{article.title}</h3>
+                                        <p className='item-content__text'>{article.content}</p>
                                     </div>
                                 </div>
                                 <div className="item-bottom row">
@@ -81,13 +82,9 @@ export class Article extends Component {
                         );
                     })}
                 </div>
-                <div id="order" className="modal modal-sm fade" role="dialog">
+                <div id="order" className="modal modal--inside modal-sm fade" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
-                            <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                <h4 className="modal-title">Enter your email</h4>
-                            </div>
 
                             {this.state.current &&
                             <Order article={this.state.current} hendelOrderComplete={this.handleOrderComplete}/>

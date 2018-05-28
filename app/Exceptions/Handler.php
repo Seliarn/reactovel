@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -51,7 +52,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Exception) {
             return response()->json([
                 'message' => $exception->getMessage()
-            ], $exception->status);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         return parent::render($request, $exception);

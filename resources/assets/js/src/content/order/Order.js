@@ -36,17 +36,23 @@ export class Order extends Component {
 
     render() {
         return (
-            <div className="modal-body">
-                <p>{this.state.article.title}</p>
-                <form id="buy-article" onSubmit={this.handleMakeOrder}>
-                    <input type="hidden" name="articleId" value={this.state.article.id} required/>
-                    <input id="email" name="email" value={this.state.email} onChange={this.handleChange} required/>
-                    <br/>
-                    <button className="btn btn-info btn-lg"
-                    >
-                        Submit
-                    </button>
-                </form>
+            <div>
+                <div className="modal-header">
+                    <h4 className="modal-title">{this.state.article.title}</h4>
+                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div className="modal-body">
+                    <p>Enter your e-mail</p>
+                    <form id="buy-article" onSubmit={this.handleMakeOrder}>
+                        <input type="hidden" name="articleId" value={this.state.article.id} required/>
+                        <input id="email" name="email" value={this.state.email} onChange={this.handleChange} required/>
+                        <br/>
+                        <button className="btn btn-info btn-lg"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
             </div>
         )
     }
