@@ -10,7 +10,6 @@ export class Header extends Component {
                     <span className = "navbar-toggler-icon"></span>
                 </button>
 
-                <MainMenu/>
             </nav>
         );
     }

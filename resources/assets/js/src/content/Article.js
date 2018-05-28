@@ -90,7 +90,7 @@ export class Article extends Component {
                             <div className="col-md-4 item" key={article.id}>
                                 <div className="row item-content">
                                     <div className="col-md-12">
-                                        <img src="http://via.placeholder.com/200x150" alt="" className='item-content__img'/>
+                                        <img src={article.url.length > 0 ? article.url : "http://via.placeholder.com/196x110"} alt="" className='item-content__img'/>
                                         <h3 className="item-content__title">{article.title}</h3>
                                         <p className='item-content__text'>{article.content}</p>
                                     </div>

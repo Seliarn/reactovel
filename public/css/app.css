@@ -10081,6 +10081,7 @@ a.text-dark:focus {
 
 .item-content__img {
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .item-content__text {
