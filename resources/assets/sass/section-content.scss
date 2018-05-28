@@ -2,16 +2,59 @@
   padding-top: 15px;
 }
 
-
-.item-content {
-  height: 90%;
-  overflow: hidden;
-}
 .item-bottom {
-  height: 10%;
+  display: flex;
+  align-items: center;
 }
 
 .item {
-  margin-top: 10px;
-  height: 300px;
+  margin-bottom: 30px;
+  transition: 0.5s;
+  z-index: 2;
+  background-color: #F5F8FA;
+}
+.item-content{
+  &__title{
+    font-size: 16px;
+    height: 40px;
+  }
+
+    &__img{
+      margin-bottom: 15px;
+    }
+    &__text{
+      height: 115px;
+      min-height:115px;
+      overflow: hidden;
+      position: relative;
+      transition: 1s;
+      &:after{
+        content: '';
+        height:1px;
+        width:100%;
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        box-shadow: 0 0 31px 17px #F5F8FA;
+        transition: 1s;
+      }
+    }
+}
+.modal{
+  &--inside{
+    max-width:100%!important;
+  }
+}
+#buy-article{
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  input{
+    height: 35px;
+
+  }
+  input[type='email']{
+    text-indent: 10px;
+  }
 }
