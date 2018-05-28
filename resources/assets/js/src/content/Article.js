@@ -7,15 +7,17 @@ export class Article extends Component {
     constructor() {
 
         super();
+
         //Initialize the state in the constructor
         this.state = {
             articles: [],
-            current: null,
+            current: false,
             isLoaded: false,
             error: null,
         };
         this.contentService = new ContentService();
         this.handleBuyArticle = this.handleBuyArticle.bind(this);
+        this.renderArticles = this.renderArticles.bind(this);
     }
 
     /*componentDidMount() is a lifecycle method
@@ -43,6 +45,7 @@ export class Article extends Component {
 
     handleBuyArticle(article) {
         this.setState({current: article});
+        console.log(this.state.current);
     }
 
     handleOrderComplite(article) {
@@ -86,8 +89,8 @@ export class Article extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
 
-                            {this.state.current &&
-                            <Order article={this.state.current} hendelOrderComplete={this.handleOrderComplete}/>
+                            {this.state.current !== false &&
+                            <Order article={this.state.current}/>
                             }
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
