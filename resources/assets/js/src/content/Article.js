@@ -57,7 +57,7 @@ export class Article extends Component {
 
     handleOrderComplite(article) {
         $('.modal-header .close').click();
-        $('#btn-buy-' + this.state.current.id).text('Bought').removeClass('btn-info').addClass('btn-default').attr('disabled', 'disabled');
+        $('#btn-buy-' + this.state.current.id).text('Purchased').removeClass('btn-info').addClass('btn-default').attr('disabled', 'disabled');
         this.setState({current:null});
     }
 
