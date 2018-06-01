@@ -24,6 +24,7 @@ export class Article extends Component {
         this.handleMakeOrder = this.handleMakeOrder.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.renderArticles = this.renderArticles.bind(this);
+        this.handleOrderComplite = this.handleOrderComplite.bind(this);
     }
 
     /*componentDidMount() is a lifecycle method
@@ -56,8 +57,8 @@ export class Article extends Component {
 
     handleOrderComplite(article) {
         $('.modal-header .close').click();
-        $('#btn-buy-' + this.state.current.id).text('Bought').removeClass('btn-info').addClass('btn-default');
-        // this.state.current = null;
+        $('#btn-buy-' + this.state.current.id).text('Bought').removeClass('btn-info').addClass('btn-default').attr('disabled', 'disabled');
+        this.setState({current:null});
     }
 
 
@@ -72,7 +73,8 @@ export class Article extends Component {
             })
             .then(function (response) {
                 if (response) {
-                    console.log(componentOrder.setState({bought: componentOrder.state.current.id}));
+                    componentOrder.setState({bought: componentOrder.state.current.id});
+                    componentOrder.handleOrderComplite();
                 }
             });
         event.preventDefault();

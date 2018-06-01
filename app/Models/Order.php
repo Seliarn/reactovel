@@ -22,7 +22,8 @@ class Order extends Model implements OrderInterface
         'title',
         'product_id',
         'description',
-        'price'
+        'price',
+        'email'
     ];
 
     /**

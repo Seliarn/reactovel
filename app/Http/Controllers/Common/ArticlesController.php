@@ -83,8 +83,9 @@ class ArticlesController extends Controller
 		]);
 
 		if ($article = Article::find($validatedData['articleId'])) {
+            $email = $validatedData['email'];
 			$orderManager = new OrderManager();
-			$result = $orderManager->generateOrder($article, new HtmlOrderGenerator());
+			$result = $orderManager->generateOrder($email, $article, new HtmlOrderGenerator());
 
 			$subject = self::MAIL_SUBJECT . $orderManager->getOrder();
 			$email = new Email($validatedData['email'], $subject, $result);

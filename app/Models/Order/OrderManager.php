@@ -9,9 +9,10 @@ class OrderManager
 {
 	private $_order;
 
-	function generateOrder(ProductInterface $product, OrderGeneratorInterface $generator, $params = [])
+	function generateOrder($email, ProductInterface $product, OrderGeneratorInterface $generator, $params = [])
 	{
 		$data = $product->getProductDataForOrder();
+        $data['email'] = $email;
 		$this->_order = Order::create($data);
 		$result = $generator->generate($this->_order);
 		return $result;
